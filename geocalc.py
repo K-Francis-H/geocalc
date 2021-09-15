@@ -85,27 +85,35 @@ class Position:
 		self.lon = lon
 		self.arc_len = Latitude('earth')
 		self.eq_arcsec = self.arc_len.get_eq_arcsec_lenm()
+		self.use_eq_arcsec = use_eq_arcsec
 
-	def go_north(self, distance, unit='km'):
+	def go_north(self, distance, unit='m'):
 		arcsec =  self.eq_arcsec
 		self.lat = self.lat + (distance / arcsec / 60 / 60)
-		print('todo')
 
-	def go_south(self, distance, unit='km'):
+	def go_south(self, distance, unit='m'):
 		arcsec =  self.eq_arcsec
 		self.lat = self.lat - (distance / arcsec / 60 / 60)
-		print('todo')
 
-	def go_east(self, distance, unit='km'):
-		arcsec = self.eq_arcsec if(self.use_eq_arcsec) else arc_len.get_lat_arcsec(lat)
+	def go_east(self, distance, unit='m'):
+		arcsec = self.eq_arcsec if(self.use_eq_arcsec) else self.arc_len.get_lat_arcsec(self.lat)
 		self.lon = self.lon + (distance / arcsec / 60 / 60)
-		print('todo')
 
-	def go_west(self, distance, unit='km'):
-		arcsec = self.eq_arcsec if(self.use_eq_arcsec) else arc_len.get_lat_arcsec(lat)
+	def go_west(self, distance, unit='m'):
+		arcsec = self.eq_arcsec if(self.use_eq_arcsec) else self.arc_len.get_lat_arcsec(self.lat)
 		self.lon = self.lon + (distance / arcsec / 60 / 60)
-		print('todo')
 
 	def get(self):
 		return (self.lat, self.lon)
+
+	@staticmethod
+	def convert_unit_to_meters(q, unit):
+		if unit == 'm':
+			return q
+		switch={
+			'km': 1000,
+			'mi': 1609.344,
+			'nm': 1852.001  
+		}
+		return q*switch.get(unit)
 	
