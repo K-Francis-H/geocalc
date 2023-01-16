@@ -89,18 +89,22 @@ class Position:
 
 	def go_north(self, distance, unit='m'):
 		arcsec =  self.eq_arcsec
+		distance = convert_unit_to_meters(distance,unit)
 		self.lat = self.lat + (distance / arcsec / 60 / 60)
 
 	def go_south(self, distance, unit='m'):
 		arcsec =  self.eq_arcsec
+		distance = convert_unit_to_meters(distance,unit)
 		self.lat = self.lat - (distance / arcsec / 60 / 60)
 
 	def go_east(self, distance, unit='m'):
 		arcsec = self.eq_arcsec if(self.use_eq_arcsec) else self.arc_len.get_lat_arcsec(self.lat)
+		distance = convert_unit_to_meters(distance,unit)
 		self.lon = self.lon + (distance / arcsec / 60 / 60)
 
 	def go_west(self, distance, unit='m'):
 		arcsec = self.eq_arcsec if(self.use_eq_arcsec) else self.arc_len.get_lat_arcsec(self.lat)
+		distance = convert_unit_to_meters(distance,unit)
 		self.lon = self.lon + (distance / arcsec / 60 / 60)
 
 	def get(self):
