@@ -115,8 +115,22 @@ class Position:
 		if self.lon < -180.0:
 			self.lon = 180.0 + (self.lon + 180.0)
 
-	def get(self):
-		return (self.lat, self.lon)
+	def get(self, format='decimal'):
+		if format == 'decimal':
+			return (self.lat, self.lon)
+		elif format == 'arcsec':
+			latdec = int(self.lat)
+			londec = int(self.lon)
+			latmin = (self.lat - latdec)*60
+			lonmin = (self.lon - londec)*60
+			latsec = int((latmin - int(latmin))*60)
+			lonsec = int((lonmin - int(lonmin))*60)
+			#now force these to int since we have the arc seconds
+			latmin = int(latmin)
+			lonmin = int(lonmin)
+
+			return (str(latdec)+"° "+str(latmin)+"' "+str(latsec)+"\"",str(londec)+"° "+str(lonmin)+"' "+str(lonsec)+"\"")
+
 
 	@staticmethod
 	def convert_unit_to_meters(q, unit):
